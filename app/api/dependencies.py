@@ -6,10 +6,12 @@ from app.infrastructure.notificadores import LogNotificador
 from sqlmodel import Session
 
 from app.infrastructure.db import get_session
-from app.infrastructure.sql_repository import SQLiteInscricaoRepository
+from app.infrastructure.sql_repository import SQLiteInscricaoRepository, SQLiteEventoRepository
 from app.interfaces.inscricao_repository import IInscricaoRepository
+from app.interfaces.evento_repository import IEventoRepository
 from app.interfaces.notificador import INotificador
 from app.services.checkin_service import CheckInService
+from app.services.evento_service import EventoService
 
 _notificador = LogNotificador()
 
@@ -17,6 +19,8 @@ _notificador = LogNotificador()
 def get_inscricao_repository(session: Session = Depends(get_session)) -> IInscricaoRepository:
     return SQLiteInscricaoRepository(session=session)
 
+def get_evento_repository(session: Session = Depends(get_session)) -> IEventoRepository:
+    return SQLiteEventoRepository(session=session)
 
 def get_notificador() -> INotificador:
     return _notificador
@@ -30,3 +34,6 @@ def get_checkin_service(
         inscricao_repository=inscricao_repository,
         notificador=notificador,
     )
+
+def get_evento_service(repo: IEventoRepository = Depends(get_evento_repository)) -> EventoService:
+    return EventoService(repository=repo)

@@ -16,5 +16,6 @@ export type CheckInRequest = {
 export type CheckInResponse = {
   mensagem: string;
   inscricao: Inscricao;
+  add_to_calendar?: string | null;
 };
 

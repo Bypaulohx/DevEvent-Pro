@@ -1,6 +1,6 @@
 import type { CheckInRequest, CheckInResponse, Inscricao } from "./types";
 
-const API_BASE = "http://127.0.0.1:8001";
+const API_BASE = "http://127.0.0.1:8000";
 
 export async function postCheckin(payload: CheckInRequest): Promise<CheckInResponse> {
   const res = await fetch(`${API_BASE}/checkin`, {
@@ -22,4 +22,3 @@ export async function getCheckins(): Promise<Inscricao[]> {
   if (!res.ok) throw new Error(`Erro HTTP ${res.status}`);
   return (await res.json()) as Inscricao[];
 }
-

@@ -23,8 +23,10 @@ class Inscricao(BaseModel):
 class CheckInRequest(BaseModel):
     nome_participante: str = Field(min_length=3, max_length=120)
     evento: str = Field(min_length=3, max_length=120)
+    provedor_calendario: str = "ics"
 
 
 class CheckInResponse(BaseModel):
     mensagem: str
     inscricao: Inscricao
+    add_to_calendar: str | None = None

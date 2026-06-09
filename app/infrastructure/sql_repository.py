@@ -4,8 +4,9 @@ from uuid import UUID
 
 from sqlmodel import Session, select
 
+from app.domain.evento import Evento
 from app.domain.inscricao import Inscricao, StatusCheckIn
-from app.infrastructure.models import InscricaoDB
+from app.infrastructure.models import InscricaoDB, EventoDB
 
 
 class SQLiteInscricaoRepository:
@@ -77,3 +78,26 @@ class SQLiteInscricaoRepository:
             status_check_in=StatusCheckIn(row.status_check_in),
             criado_em=row.criado_em,
         )
+
+class SQLiteEventoRepository:
+    def __init__(self, session: Session) -> None:
+        self._session = session
+
+    def listar(self) -> list[Evento]:
+        rows = self._session.exec(select(EventoDB)).all()
+        return [Evento(nome=r.nome, descricao=r.descricao) for r in rows]
+
+    def salvar(self, evento: Evento) -> Evento:
+        row = self._session.get(EventoDB, evento.nome)
+        if not row:
+            novo = EventoDB(nome=evento.nome, descricao=evento.descricao)
+            self._session.add(novo)
+            self._session.commit()
+            self._session.refresh(novo)
+        return evento
+
+    def excluir(self, nome: str) -> None:
+        row = self._session.get(EventoDB, nome)
+        if row:
+            self._session.delete(row)
+            self._session.commit()
