@@ -1,6 +1,6 @@
-# DevEvent Pro
+# Six Eventos
 
-`DevEvent Pro` e um sistema FullStack para gerenciar check-ins de participantes em eventos tech:
+`Six Eventos` e um sistema FullStack para gerenciar check-ins de participantes em eventos tech:
 
 - **Backend**: FastAPI + SQLite (SQLModel)
 - **Frontend**: React (Vite) + Tailwind (Dark Mode)
